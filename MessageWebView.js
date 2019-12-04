@@ -1,19 +1,12 @@
 import React from 'react';
-import { WebView, View } from 'react-native';
+import { View } from 'react-native';
+import { WebView } from 'react-native-webview';
 
-// fix https://github.com/facebook/react-native/issues/10865
+// https://github.com/react-native-community/react-native-webview/releases/tag/v5.0.0
 const patchPostMessageJsCode = `(${String(function() {
-  var originalPostMessage = window.postMessage;
-  var patchedPostMessage = function(message, targetOrigin, transfer) {
-    originalPostMessage(message, targetOrigin, transfer);
+  window.postMessage = function(data) {
+    window.ReactNativeWebView.postMessage(data);
   };
-  patchedPostMessage.toString = function() {
-    return String(Object.hasOwnProperty).replace(
-      'hasOwnProperty',
-      'postMessage',
-    );
-  };
-  window.postMessage = patchedPostMessage;
 })})();`;
 
 export default class MessageWebView extends React.Component {
