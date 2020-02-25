@@ -23,8 +23,9 @@
   "author": "Akash Sant",
   "license": "ISC",
   "dependencies": {
+    "merge": ">=1.2.1",
     "prop-types": "^15.6.1",
-    "merge": ">=1.2.1"
+    "react-native-webview": "^8.1.2"
   },
   "peerDependencies": {
     "react-native": "*"
