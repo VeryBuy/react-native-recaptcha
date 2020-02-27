@@ -24,7 +24,7 @@ const getInvisibleRecaptchaContent = (siteKey, action, onReady) => {
     'grecaptcha.ready(function() { ' +
     `(${String(onReady)})(); ` +
     '}); ' +
-    'document.addEventListener("message",function(e){if(typeof e.data!=="string")return;if(e.data.indexOf("get token")!==-1)getToken().then(function(res){window.postMessage(res)})});' +
+    'window.WebViewBridge = { onMessage: function(msg){if(msg === "get token")getToken().then(function(res){window.postMessage(res)}) } };' +
     '</script>' +
     '</head></html>';
   return webForm;
