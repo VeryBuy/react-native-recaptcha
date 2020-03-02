@@ -23,7 +23,11 @@ export default class MessageWebView extends React.Component {
   };
 
   getToken = () => {
-    this.webview.postMessage('get token');
+    this.webview.injectJavaScript(
+      `(function() {
+        window.WebViewBridge.onMessage('get token');
+      })();`
+    );
   };
 
   render() {
