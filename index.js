@@ -91,11 +91,16 @@ export default class ReCaptcha extends Component {
     ) {
       return true;
     }
-    Linking.canOpenURL(event.url).then(supported => {
-      if (supported) {
-        return Linking.openURL(event.url);
-      }
-    });
+    if (event.url !== 'about:blank') {
+      Linking.canOpenURL(event.url)
+        .then(supported => {
+          if (supported) {
+            return Linking.openURL(event.url);
+          }
+        })
+        .catch(error => console.log('ReCaptcha onShouldStartLoadWithRequest error:', error));
+    }
+
     return false;
   };
 
@@ -108,11 +113,13 @@ export default class ReCaptcha extends Component {
         !!event.canGoBack &&
         !event.loading
       ) {
-        Linking.canOpenURL(event.url).then(supported => {
-          if (supported) {
-            return Linking.openUrl(event.url);
-          }
-        });
+        Linking.canOpenURL(event.url)
+          .then(supported => {
+            if (supported) {
+              return Linking.openUrl(event.url);
+            }
+          })
+          .catch(error => console.log('ReCaptcha onNavigationStateChange error:', error));
       }
 
       if (!!event.canGoBack) {
@@ -142,7 +149,6 @@ export default class ReCaptcha extends Component {
         ref={ref => {
           this.webview = ref;
         }}
-        scalesPageToFit={true}
         mixedContentMode={'always'}
         containerStyle={containerStyle}
         onMessage={message => onExecute(message)}
