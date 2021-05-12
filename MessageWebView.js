@@ -3,11 +3,11 @@ import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 // https://github.com/react-native-community/react-native-webview/releases/tag/v5.0.0
-const patchPostMessageJsCode = `(${String(function() {
+const patchPostMessageJsCode = `(function() {
   window.postMessage = function(data) {
     window.ReactNativeWebView.postMessage(data);
   };
-})})();`;
+})();`;
 
 export default class MessageWebView extends React.Component {
   constructor(props) {
